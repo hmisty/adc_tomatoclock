@@ -15,6 +15,8 @@ public class TimerUpdateService extends Service {
     private static final long UPDATE_INTERVAL = 1000; //1 sec
     private long timeElapsed = 0;
 
+    public static final String UPDATE_MSGR = "info.liuqy.adc.tomatoclock.update_msgr";
+
     public long getTimeElapsed() {
 		return timeElapsed;
 	}

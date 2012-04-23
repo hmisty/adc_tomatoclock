@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.os.Messenger;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -63,6 +64,8 @@ public class TomatoClockActivity extends Activity {
         Toast.makeText(this, "TomatoTimer started!", Toast.LENGTH_SHORT).show();      
 
         Intent service = new Intent(this, TimerUpdateService.class);
+        service.putExtra(TimerUpdateService.UPDATE_MSGR, new Messenger(updateTimerHandler));
         bindService(service, conn, Context.BIND_AUTO_CREATE);
+		startService(service);
     }
 }
