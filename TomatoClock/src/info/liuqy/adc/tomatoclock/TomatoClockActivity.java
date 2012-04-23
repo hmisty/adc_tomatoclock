@@ -14,7 +14,7 @@ public class TomatoClockActivity extends Activity {
     }
     
     public void startTimer(View v) {
-        Intent service = new Intent(TomatoClockActivity.this, TomatoTimerService.class);
-        TomatoClockActivity.this.startService(service);
+        Intent i = new Intent(this, TomatoVibrator.class);
+        this.sendBroadcast(i);
     }
 }
