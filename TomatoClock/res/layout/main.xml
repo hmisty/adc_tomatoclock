@@ -4,17 +4,15 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/hello" />
-
     <Button
         android:id="@+id/start_timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/start_timer"
+        android:background="@drawable/tomato"
+        android:layout_gravity="center_horizontal|center_vertical"
         android:onClick="startTimer"
-        />
+        android:textSize="64sp"
+        android:textColor="@android:color/white"
+        android:text="00:00" />
     
 </LinearLayout>
