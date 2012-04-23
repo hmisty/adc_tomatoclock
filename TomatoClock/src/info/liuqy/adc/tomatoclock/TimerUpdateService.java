@@ -6,6 +6,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 
 public class TimerUpdateService extends Service {
     private final String TAG = this.getClass().getSimpleName();
@@ -27,5 +28,23 @@ public class TimerUpdateService extends Service {
 	public IBinder onBind(Intent intent) {
 		return mBinder;
 	}
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        pollForUpdates();
+    }
+    
+    private void pollForUpdates() {
+    	//TODO start the timer
+        Log.i(TAG, "TimerUpdateService started.");
+    }
+    
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //TODO stop the timer
+        Log.i(TAG, "TimerUpdateService stopped.");
+    }
 
 }
