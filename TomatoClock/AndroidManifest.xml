@@ -19,6 +19,8 @@
             </intent-filter>
         </activity>
         <service android:name=".TomatoTimerService" />
+        <receiver android:name=".TomatoVibrator"></receiver>
     </application>
+	<uses-permission android:name="android.permission.VIBRATE" />
 
 </manifest>
