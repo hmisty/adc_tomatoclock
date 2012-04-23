@@ -36,8 +36,8 @@ public class TomatoTimerService extends IntentService {
 
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
+        Toast.makeText(this, "TomatoTimer timed out!", Toast.LENGTH_SHORT).show();
 	}
 
 }
