@@ -1,6 +1,7 @@
 package info.liuqy.adc.tomatoclock;
 
 import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.Service;
 import android.content.Intent;
@@ -36,14 +37,22 @@ public class TimerUpdateService extends Service {
     }
     
     private void pollForUpdates() {
-    	//TODO start the timer
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                timeElapsed++;
+                //TODO update UI to show the timer
+            }
+        }, 0, UPDATE_INTERVAL);
         Log.i(TAG, "TimerUpdateService started.");
     }
     
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //TODO stop the timer
+        if (timer != null) {
+            timer.cancel();
+        }
         Log.i(TAG, "TimerUpdateService stopped.");
     }
 
