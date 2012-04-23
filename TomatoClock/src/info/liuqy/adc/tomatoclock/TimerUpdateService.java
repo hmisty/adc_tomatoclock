@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Message;
 import android.os.Messenger;
+import android.os.RemoteException;
 import android.util.Log;
 
 public class TimerUpdateService extends Service {
@@ -61,7 +63,22 @@ public class TimerUpdateService extends Service {
             @Override
             public void run() {
                 timeElapsed++;
-                //TODO update UI to show the timer
+                
+				if (timeElapsed * 1000 >= TomatoClockActivity.TWENTYFIVE_MIN) {
+					this.cancel();
+					TimerUpdateService.this.stopSelf();
+				}
+				
+				//update UI to show the timer
+				Message msg = Message.obtain();
+				msg.obj = timeElapsed;
+				try {
+					msgr.send(msg);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
             }
         }, 0, UPDATE_INTERVAL);
         Log.i(TAG, "TimerUpdateService started.");
