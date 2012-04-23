@@ -16,4 +16,16 @@ public class TomatoTimerService extends IntentService {
 
 	}
 
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		// TODO Auto-generated method stub
+		return super.onStartCommand(intent, flags, startId);
+	}
+
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+	}
+
 }
