@@ -2,6 +2,7 @@ package info.liuqy.adc.tomatoclock;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.widget.Toast;
 
 public class TomatoTimerService extends IntentService {
     public static final String DURATION = "duration";
@@ -29,7 +30,7 @@ public class TomatoTimerService extends IntentService {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		// TODO Auto-generated method stub
+		Toast.makeText(this, "TomatoTimer started!", Toast.LENGTH_SHORT).show();
 		return super.onStartCommand(intent, flags, startId);
 	}
 
