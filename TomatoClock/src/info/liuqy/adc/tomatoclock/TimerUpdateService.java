@@ -6,17 +6,20 @@ import java.util.TimerTask;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Messenger;
 import android.util.Log;
 
 public class TimerUpdateService extends Service {
     private final String TAG = this.getClass().getSimpleName();
-    private Timer timer = new Timer();
+    private Timer timer;
     private static final long UPDATE_INTERVAL = 1000; //1 sec
     private long timeElapsed = 0;
 
     public static final String UPDATE_MSGR = "info.liuqy.adc.tomatoclock.update_msgr";
-
+    private Messenger msgr;
+    
     public long getTimeElapsed() {
 		return timeElapsed;
 	}
@@ -39,9 +42,20 @@ public class TimerUpdateService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        pollForUpdates();
     }
     
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		Bundle extras = intent.getExtras();
+		msgr = (Messenger)extras.get(UPDATE_MSGR);
+
+		timer = new Timer();
+		timeElapsed = 0;
+		pollForUpdates();
+
+		return super.onStartCommand(intent, flags, startId);
+	}
+
     private void pollForUpdates() {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
