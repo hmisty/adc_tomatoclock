@@ -13,9 +13,18 @@ public class TomatoTimerService extends IntentService {
 	}
 
 	@Override
-	protected void onHandleIntent(Intent intent) {
-		// TODO Auto-generated method stub
-
+	protected void onHandleIntent(Intent i) {
+        long duration = i.getLongExtra(DURATION, TWENTYFIVE_MIN);
+        long endTime = System.currentTimeMillis() + duration;
+        while (System.currentTimeMillis() < endTime) {
+            synchronized (this) {
+                    try {
+                        wait(endTime - System.currentTimeMillis());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+            }
+        }
 	}
 
 	@Override
