@@ -3,5 +3,6 @@
 
     <string name="hello">Hello World, TomatoClockActivity!</string>
     <string name="app_name">TomatoClock</string>
-
+    <string name="start_timer">Start Timer</string>
+    
 </resources>
