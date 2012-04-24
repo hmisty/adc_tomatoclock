@@ -4,7 +4,7 @@ ADC, Android Development Course, is a series of Android development classes taug
 
 ADC Tomato Clock
 ---
-ADC Tomato Clock is the 5th homework of the ADC.
+ADC Tomato Clock is the 6th homework of the ADC.
 The source code here is a partially finished Android application. The goal for the students is to complete the application as required.
 
 Homework
