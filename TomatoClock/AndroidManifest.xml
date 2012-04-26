@@ -11,7 +11,8 @@
         android:label="@string/app_name" >
         <activity
             android:label="@string/app_name"
-            android:name=".TomatoClockActivity" >
+            android:name=".TomatoClockActivity" 
+            android:configChanges="orientation|keyboardHidden"> >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,6 +21,7 @@
         </activity>
         <service android:name=".TomatoTimerService" />
         <service android:name=".TimerUpdateService" />
+        <service android:name=".TimerUpdateForegroundService" />
         <receiver android:name=".TomatoVibrator"></receiver>
     </application>
 	<uses-permission android:name="android.permission.VIBRATE" />
