@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 public class TomatoTimerService extends IntentService {
     public static final String DURATION = "duration";
-    public static final long TWENTYFIVE_MIN = 5*1000; //only for class demo. real: 25*60*1000;
+    public static final long TWENTYFIVE_MIN = 10*1000; //only for class demo. real: 25*60*1000;
     public static final String NAME = "TomatoTimerService";
 
 	public TomatoTimerService() {
