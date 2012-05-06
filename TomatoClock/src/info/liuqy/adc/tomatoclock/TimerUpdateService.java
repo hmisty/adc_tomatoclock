@@ -1,6 +1,5 @@
 package info.liuqy.adc.tomatoclock;
 
-import java.io.Serializable;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,11 +15,10 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
 
-public class TimerUpdateService extends Service implements Serializable{
+public class TimerUpdateService extends Service {
     /**
      * 
      */
-    private static final long serialVersionUID = 1L;
     private final String TAG = this.getClass().getSimpleName();
     private Timer timer;
     private static final long UPDATE_INTERVAL = 1000; //1 sec
