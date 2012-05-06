@@ -1,8 +1,11 @@
 package info.liuqy.adc.tomatoclock;
 
+import java.io.Serializable;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
@@ -13,13 +16,18 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
 
-public class TimerUpdateService extends Service {
+public class TimerUpdateService extends Service implements Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private final String TAG = this.getClass().getSimpleName();
     private Timer timer;
     private static final long UPDATE_INTERVAL = 1000; //1 sec
     private long timeElapsed = 0;
 
     public static final String UPDATE_MSGR = "info.liuqy.adc.tomatoclock.update_msgr";
+    private static final int ONGOING_NOTIFICATION = 0x110;
     private Messenger msgr;
     
     public long getTimeElapsed() {
@@ -45,20 +53,34 @@ public class TimerUpdateService extends Service {
     public void onCreate() {
         super.onCreate();
     }
-    
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Bundle extras = intent.getExtras();
 		msgr = (Messenger)extras.get(UPDATE_MSGR);
-
-		timer = new Timer();
-		timeElapsed = 0;
-		pollForUpdates();
-
 		return super.onStartCommand(intent, flags, startId);
+	}
+	public void restart()
+	{
+	    if(timer != null )
+        {
+            timer.cancel();
+        }
+        timer = new Timer();
+        timeElapsed = 0;
+        pollForUpdates();
+        
+        Notification notification = new Notification(android.R.drawable
+                .stat_notify_chat, "TomatoClock!",
+                System.currentTimeMillis());
+        Intent notificationIntent = new Intent(this, TomatoClockActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        notification.setLatestEventInfo(this, "TomatoClock",
+                "TomatoClock is running!", pendingIntent);
+        startForeground(ONGOING_NOTIFICATION, notification);
 	}
 
     private void pollForUpdates() {
+        
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
