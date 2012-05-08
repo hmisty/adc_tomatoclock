@@ -3,6 +3,8 @@ package info.liuqy.adc.tomatoclock;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
@@ -15,9 +17,11 @@ import android.util.Log;
 
 public class TimerUpdateService extends Service {
     private final String TAG = this.getClass().getSimpleName();
+    private final int ONGOING_NOTIFICATION = 1;
     private Timer timer;
     private static final long UPDATE_INTERVAL = 1000; //1 sec
     private long timeElapsed = 0;
+    
 
     public static final String UPDATE_MSGR = "info.liuqy.adc.tomatoclock.update_msgr";
     private Messenger msgr;
@@ -44,15 +48,26 @@ public class TimerUpdateService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.d("Tomato", "onCreate");
+        Notification notification = new Notification(R.drawable.tomato, getText(R.string.app_name),
+                System.currentTimeMillis());
+        Intent notificationIntent = new Intent(this, TomatoClockActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        notification.setLatestEventInfo(this, getText(R.string.app_name),
+                getText(R.string.app_name), pendingIntent);
+        startForeground(ONGOING_NOTIFICATION, notification);
     }
     
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Bundle extras = intent.getExtras();
 		msgr = (Messenger)extras.get(UPDATE_MSGR);
-
+		if (timer != null) {
+			timer.cancel();
+		}
 		timer = new Timer();
 		timeElapsed = 0;
+		Log.d("Tomato", "onStartCommand");
 		pollForUpdates();
 
 		return super.onStartCommand(intent, flags, startId);
@@ -63,7 +78,7 @@ public class TimerUpdateService extends Service {
             @Override
             public void run() {
                 timeElapsed++;
-                
+                Log.d("Tomato", "pollForUpdates | timeElapsed = " + timeElapsed);
 				if (timeElapsed * 1000 >= TomatoClockActivity.TWENTYFIVE_MIN) {
 					this.cancel();
 					TimerUpdateService.this.stopSelf();
@@ -90,6 +105,7 @@ public class TimerUpdateService extends Service {
         if (timer != null) {
             timer.cancel();
         }
+        stopForeground(true);
         Log.i(TAG, "TimerUpdateService stopped.");
     }
 
