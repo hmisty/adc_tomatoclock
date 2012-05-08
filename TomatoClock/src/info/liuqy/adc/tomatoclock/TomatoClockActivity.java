@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -48,6 +49,7 @@ public class TomatoClockActivity extends Activity {
 			Button clockBtn = (Button)TomatoClockActivity.this.findViewById(R.id.start_timer);
 			//int secs = (Integer)msg.obj;
 			long secs = srv.getTimeElapsed();
+			Log.d("Tomato", "secs = " + secs);
 			int min = (int) secs/60;
 			int sec = (int) secs - min*60;
 			clockBtn.setText(String.format("%1$02d:%2$02d", min, sec));
