@@ -4,5 +4,7 @@
     <string name="hello">Hello World, TomatoClockActivity!</string>
     <string name="app_name">TomatoClock</string>
     <string name="start_timer">Start Timer</string>
+    <string name="foreground_service_started">Tomato Service Started</string>
+    <string name="local_service_label">TomatoClock</string>
     
 </resources>

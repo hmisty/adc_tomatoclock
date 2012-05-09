@@ -7,11 +7,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -19,7 +21,7 @@ import android.widget.Toast;
 public class TomatoClockActivity extends Activity {
 	static final int VIBRATE_ACTION = 0;
     public static final long TWENTYFIVE_MIN = 5*1000; //only for class demo. real: 25*60*1000;
-
+    private Intent service;
 	private TimerUpdateService srv = null;
 	private ServiceConnection conn = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder binder) {
@@ -35,9 +37,19 @@ public class TomatoClockActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        service = new Intent(this, TimerUpdateService.class);
+        service.putExtra(TimerUpdateService.UPDATE_MSGR, new Messenger(updateTimerHandler));
+        
     }
     
-    private Handler updateTimerHandler = new Handler() {
+    @Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		// TODO Auto-generated method stub
+    	super.onConfigurationChanged(newConfig);
+    	Log.w("TomatoClock","config:"+newConfig);
+	}
+
+	private Handler updateTimerHandler = new Handler() {
 
 		/* (non-Javadoc)
 		 * @see android.os.Handler#handleMessage(android.os.Message)
@@ -54,6 +66,7 @@ public class TomatoClockActivity extends Activity {
 		}
     	
     };
+	
 
     public void startTimer(View v) {
         Intent i = new Intent(this, TomatoVibrator.class);
@@ -63,9 +76,24 @@ public class TomatoClockActivity extends Activity {
         am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + TWENTYFIVE_MIN, pi);
         Toast.makeText(this, "TomatoTimer started!", Toast.LENGTH_SHORT).show();      
 
-        Intent service = new Intent(this, TimerUpdateService.class);
-        service.putExtra(TimerUpdateService.UPDATE_MSGR, new Messenger(updateTimerHandler));
+        service.setAction(TimerUpdateService.ACTION_FOREGROUND);
         bindService(service, conn, Context.BIND_AUTO_CREATE);
 		startService(service);
     }
+
+    /*
+	@Override
+	protected void onPause() {
+		unbindService(conn);
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		bindService(service, conn, Context.BIND_AUTO_CREATE);	
+		service.setAction(TimerUpdateService.ACTION_UPDATE_MSGR);
+		startService(service);
+		super.onResume();
+	}
+    */
 }
