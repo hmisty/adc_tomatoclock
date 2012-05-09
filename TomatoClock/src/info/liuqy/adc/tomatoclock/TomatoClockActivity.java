@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 public class TomatoClockActivity extends Activity {
 	static final int VIBRATE_ACTION = 0;
-    public static final long TWENTYFIVE_MIN = 50*1000; //only for class demo. real: 25*60*1000;
+    public static final long TWENTYFIVE_MIN = 5*1000; //only for class demo. real: 25*60*1000;
     private Intent service;
 	private TimerUpdateService srv = null;
 	private ServiceConnection conn = new ServiceConnection() {
